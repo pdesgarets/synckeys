@@ -1,5 +1,4 @@
 # The unix user (e.g. www-data, operator)
-# not the Illuin user !
 class User:
     def __init__(self, name, acl):
         self.name = name
