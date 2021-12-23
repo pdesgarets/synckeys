@@ -82,7 +82,7 @@ def main(argv=None):
     keys = dl.load_from_file(flags.keys)['keys']
 
     if flags.list_keys:
-        list_keys(dl, acl, flags.key_name, flags.project, flags.private_key)
+        list_keys(dl, acl, flags.key_name, flags.project, flags.private_key, flags.dry_run)
         return
 
     sync_acl(dl, acl, keys, flags.key_name, flags.project, flags.dry_run, flags.private_key)

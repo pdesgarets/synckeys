@@ -5,16 +5,15 @@ from synckeys.ansible_utils import run_plays
 from synckeys.project import Project
 
 
-def list_keys(dl, acl, keyname, project_name, private_key):
+def list_keys(dl, acl, keyname, project_name, private_key, dry_run):
     ansible_plays = []
-
     # First, collect all tasks to perform
     for project_yaml in acl:
         project = Project(project_yaml)
         if project_name and project.name != project_name:
             continue
         ansible_plays.extend(get_project_list_keys_play(project, keyname))
-    run_plays(dl, acl, private_key, ansible_plays, ListKeysResultCallback())
+    run_plays(dl, acl, private_key, ansible_plays, ListKeysResultCallback(dl, acl, private_key, dry_run))
 
 
 def get_project_list_keys_play(project, keyname):

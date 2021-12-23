@@ -3,7 +3,7 @@ import datetime
 
 from synckeys.ansible_utils import run_plays
 from synckeys.project import Project
-from synckeys.sync_projects.result_callback import ResultCallback
+from synckeys.sync_projects.sync_projects_result_callback import SyncProjectsResultCallback
 
 
 def get_project_play(project, keys, keyname, dry_run):
@@ -79,7 +79,7 @@ def get_project_play(project, keys, keyname, dry_run):
                     )
                 )
             logging.info(' - ' + user.name + ' expired for ' +
-                        ", ".join(expired_key_names) + ' synced through ' + remote_user)
+                         ", ".join(expired_key_names) + ' synced through ' + remote_user)
 
         if len(authorized_key_names) > 0:
             authorized_keys = [keys[key_name]['key'] + ' ' + key_name for key_name in authorized_key_names]
@@ -111,7 +111,7 @@ def get_project_play(project, keys, keyname, dry_run):
                     )
                 )
             logging.info(' - ' + user.name + ' authorized for ' +
-                        ", ".join(authorized_key_names) + ' synced through ' + remote_user)
+                         ", ".join(authorized_key_names) + ' synced through ' + remote_user)
         plays.append(play)
     return plays
 
@@ -125,4 +125,4 @@ def sync_acl(dl, acl, keys, keyname, project_name, dry_run, private_key):
         if project_name and project.name != project_name:
             continue
         ansible_plays.extend(get_project_play(project, keys, keyname, dry_run))
-    run_plays(dl, acl, private_key, ansible_plays, ResultCallback())
+    run_plays(dl, acl, private_key, ansible_plays, SyncProjectsResultCallback())

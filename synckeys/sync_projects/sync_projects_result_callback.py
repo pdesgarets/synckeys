@@ -4,7 +4,7 @@ import logging
 from ansible.plugins.callback import CallbackBase
 
 
-class ResultCallback(CallbackBase):
+class SyncProjectsResultCallback(CallbackBase):
     failures = 0
 
     def v2_runner_on_ok(self, result, **kwargs):

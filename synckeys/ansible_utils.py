@@ -57,5 +57,3 @@ def run_plays(dl, acl, private_key, ansible_plays, results_callback):
         if tqm is not None:
             os.unlink(inventory_file.name)
             tqm.cleanup()
-            if results_callback.failures > 0:
-                exit(1)
