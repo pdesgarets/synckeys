@@ -100,7 +100,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': [
-            'synckeys=synckeys.synckeys:main',
+            'synckeys=synckeys.__main__:main',
         ],
     },
 )
