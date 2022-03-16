@@ -7,6 +7,8 @@ import getpass
 import sys
 import logging
 import argparse
+import multiprocessing
+import platform
 
 from synckeys.list_keys.list_keys import list_keys
 from synckeys.sync_projects.sync_projects import sync_acl
@@ -67,6 +69,8 @@ parser.add_argument(
 
 
 def main(argv=None):
+    if platform.system() == "Darwin":
+        multiprocessing.set_start_method("fork")
     if not argv:
         argv = sys.argv
 
