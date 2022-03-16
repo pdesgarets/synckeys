@@ -116,6 +116,18 @@ Sync a specific project:
        synckeys --key-name yourkeyname --project superproject
 
 
+List the authorized keys on servers, and optionally remove them individually:
+
+   ::
+
+       synckeys --key-name yourkeyname --list-keys
+
+List the authorized keys on servers, and optionally remove them individually, on a specific project:
+
+   ::
+
+       synckeys --key-name yourkeyname --project superproject --list-keys
+
 TODO :memo:
 ===========
 
