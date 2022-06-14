@@ -4,10 +4,11 @@ import os
 
 from tempfile import NamedTemporaryFile
 from ansible.vars.manager import VariableManager
+from ansible.module_utils.common.collections import ImmutableDict
 from ansible.inventory.manager import InventoryManager
 from ansible.playbook.play import Play
 from ansible.executor.task_queue_manager import TaskQueueManager
-from collections import namedtuple
+from ansible import context
 
 
 def run_plays(dl, acl, private_key, ansible_plays, results_callback):
@@ -34,10 +35,8 @@ def run_plays(dl, acl, private_key, ansible_plays, results_callback):
 
     variable_manager = VariableManager(loader=dl, inventory=inventory)
 
-    Options = namedtuple('Options', ['connection', 'module_path', 'forks', 'become', 'become_method', 'become_user',
-                                     'check', 'diff'])
-    options = Options(forks=100, connection="ssh", module_path="", become=None, become_method="sudo",
-                      become_user="root", check=False, diff=False)
+    context.CLIARGS = ImmutableDict(forks=100, connection="ssh", module_path="", become=None, become_method="sudo",
+                      become_user="root", check=False, diff=False, verbosity=0)
 
     tqm = None
     try:
@@ -45,7 +44,6 @@ def run_plays(dl, acl, private_key, ansible_plays, results_callback):
             inventory=inventory,
             variable_manager=variable_manager,
             loader=dl,
-            options=options,
             passwords=None,
             stdout_callback=results_callback,  # Use our custom callback
             # instead of the ``default`` callback plugin
