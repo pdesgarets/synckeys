@@ -5,9 +5,14 @@ from synckeys.ansible_utils import run_plays
 from synckeys.project import Project
 from synckeys.sync_projects.sync_projects_result_callback import SyncProjectsResultCallback
 
+def _convert_to_date(date_str):
+    if isinstance(date_str, datetime.date):
+        return date_str
+    if isinstance(date_str, datetime.datetime):
+        return date_str.date()
+    return datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
 
 def get_project_play(project, keys, keyname, dry_run):
-    sudoer_account = project.get_sudoer_account(keyname)
 
     logging.info('Syncing "' + project.name + '" using key "' + keyname + '"')
     plays = []
@@ -35,7 +40,7 @@ def get_project_play(project, keys, keyname, dry_run):
                 expired_key_names.append(key_name)
                 continue
 
-            if not keys[key_name]['expires'] or keys[key_name]['expires'] > datetime.datetime.now().date():
+            if not keys[key_name]['expires'] or _convert_to_date(keys[key_name]['expires']) > datetime.datetime.now().date():
                 authorized_key_names.append(key_name)
             else:
                 expired_key_names.append(key_name)
